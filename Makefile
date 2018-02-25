@@ -7,8 +7,12 @@ OUTPUT=solar.dll
 build:
 	$(FSC) $(FILES) -a -o $(OUTPUT)
 
-clear:
-	rm $(OUTPUT)
+build-binary: build
+	tail -n +3 main.fsx > main.fs
+	fsc -r $(OUTPUT) main.fs
+
+clean:
+	rm *.dll *.exe main.fs
 
 run:
 	$(FSI) main.fsx

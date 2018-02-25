@@ -84,11 +84,23 @@ timer.Interval <- int $ interval * 1000.0
 let dt = 365.0 * 24.0 * 60.0 * 60.0 * interval
 
 second_buffer.Clear Color.Black
+
+let printParameters (bodies : Body list) =
+    List.iter
+        (fun here ->
+            printfn "pos %s speed %s acc %s id %s" (string here.pos)
+                                                   (string here.speed)
+                                                   (string here.acc)
+                                                   here.id)
+        bodies
+
 let tick _ =
     second_buffer.Clear Color.Black
 
     List.iter (drawBody second_buffer) bodies
     bodies <- List.map (updateBody bodies dt) bodies
+
+    //printParameters bodies
 
     g.DrawImageUnscaled(bitmap, 0, 0)
     ()

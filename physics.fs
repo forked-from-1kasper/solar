@@ -17,7 +17,6 @@ module Physics =
             List.sumBy (gravitionalForce here) allWithoutMe
         let speed = here.speed + (acc * dt)
         let pos = here.pos + (speed * dt)
-        //printfn "pos %s speed %s acc %s id %s" (string pos) (string speed) (string acc) here.id
 
         { acc = acc;
           speed = speed;
