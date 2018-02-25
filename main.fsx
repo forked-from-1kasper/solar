@@ -86,13 +86,16 @@ let dt = 365.0 * 24.0 * 60.0 * 60.0 * interval
 second_buffer.Clear Color.Black
 
 let printParameters (bodies : Body list) =
-    List.iter
+    List.map
         (fun here ->
-            printfn "pos %s speed %s acc %s id %s" (string here.pos)
+            sprintf "pos %s speed %s acc %s id %s" (string here.pos)
                                                    (string here.speed)
                                                    (string here.acc)
                                                    here.id)
         bodies
+
+let font = new Font ("Consolas", 8.0f)
+let brush = new SolidBrush (Color.White)
 
 let tick _ =
     second_buffer.Clear Color.Black
@@ -100,7 +103,11 @@ let tick _ =
     List.iter (drawBody second_buffer) bodies
     bodies <- List.map (updateBody bodies dt) bodies
 
-    //printParameters bodies
+    List.iteri
+        (fun index text ->
+            let rect = new RectangleF (0.0f, float32 index * 20.0f, 0.0f, 0.0f)
+            second_buffer.DrawString (text, font, brush, rect))
+        (printParameters bodies)
 
     g.DrawImageUnscaled(bitmap, 0, 0)
     ()
@@ -116,3 +123,6 @@ timer.Stop ()
 timer.Dispose ()
 form.Dispose ()
 bitmap.Dispose ()
+
+font.Dispose ()
+brush.Dispose ()

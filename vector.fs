@@ -21,4 +21,4 @@ type Vector =
         static member Zero = { x = 0.0; y = 0.0 }
 
         override v.ToString () =
-            sprintf "{%f, %f}" v.x v.y
+            sprintf "{%.2f, %.2f}" v.x v.y
