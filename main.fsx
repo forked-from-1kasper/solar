@@ -81,8 +81,6 @@ second_buffer.SmoothingMode <- Drawing2D.SmoothingMode.AntiAlias
 let timer = new Timer ()
 timer.Interval <- int $ interval * 1000.0
 
-let dt = 365.0 * 24.0 * 60.0 * 60.0 * interval
-
 second_buffer.Clear Color.Black
 
 let printParameters (bodies : Body list) =
@@ -97,7 +95,24 @@ let printParameters (bodies : Body list) =
 let font = new Font ("Consolas", 8.0f)
 let brush = new SolidBrush (Color.White)
 
+let settingsForm = new Form ()
+settingsForm.MinimumSize <- new Size (100, 70)
+settingsForm.MaximumSize <- new Size (1000, 70)
+settingsForm.Text <- "Speed control"
+
+let speedBar = new TrackBar ()
+//speedBar.Size <- new Size (0, 0)
+speedBar.Dock <- DockStyle.Fill
+speedBar.Location <- new Point (0, 0)
+speedBar.Maximum <- 10000
+speedBar.Text <- "goggog"
+
+settingsForm.Controls.Add(speedBar)
+settingsForm.Show ()
+
 let tick _ =
+    let dt = 24.0 * 60.0 * 60.0 * interval * (float speedBar.Value)
+    
     second_buffer.Clear Color.Black
 
     List.iter (drawBody second_buffer) bodies
@@ -113,7 +128,6 @@ let tick _ =
     ()
 
 timer.Tick.Add tick
-
 timer.Start ()
 
 Application.Run form
@@ -126,3 +140,4 @@ bitmap.Dispose ()
 
 font.Dispose ()
 brush.Dispose ()
+speedBar.Dispose ()
