@@ -12,8 +12,8 @@ Simple Solar System simulator written in F#.
 
 ## Build
 
-`make`.
+`make` or build binary: `make build-binary`.
 
 ## Run
 
-`make run` or `fsi main.fsx`.
+`make run` or `fsi main.fsx`, or `./main.exe`/`mono main.exe`.

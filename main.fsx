@@ -104,7 +104,7 @@ let speedBar = new TrackBar ()
 //speedBar.Size <- new Size (0, 0)
 speedBar.Dock <- DockStyle.Fill
 speedBar.Location <- new Point (0, 0)
-speedBar.Maximum <- 10000
+speedBar.Maximum <- 1000
 speedBar.Text <- "goggog"
 
 settingsForm.Controls.Add(speedBar)
