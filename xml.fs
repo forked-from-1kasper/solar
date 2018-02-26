@@ -25,8 +25,9 @@ module Xml =
     let private parseVector (v : XmlNode) : Vector =
         let x = parseNumber <| safeSelectAttribute "x" v
         let y = parseNumber <| safeSelectAttribute "y" v
+        let z = parseNumber <| safeSelectAttribute "z" v
 
-        { x = x; y = y }
+        { x = x; y = y; z = z }
 
     let private parsePlanet (v : XmlNode) : Body =
         let getVector s =

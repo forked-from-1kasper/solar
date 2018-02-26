@@ -9,7 +9,8 @@ module Physics =
     let scale (v : Vector) =
         let k = 10.0 ** 9.0
         { x = (v.x / k) + (float width / 2.0);
-          y = (v.y / k) + (float height / 2.0) }
+          y = (v.y / k) + (float height / 2.0);
+          z = (v.z / k)}
 
     let updateBody (bodies : Body list) (dt : float) (here : Body) =
         let allWithoutMe = List.filter ((<>) here) bodies
