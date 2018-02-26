@@ -20,21 +20,8 @@ let printParameters (bodies : Body list) =
                                                    here.id)
         bodies
 
-let settingsForm = new Form ()
-settingsForm.MinimumSize <- new Size (100, 70)
-settingsForm.MaximumSize <- new Size (1000, 70)
-settingsForm.Text <- "Speed control"
-
-let speedBar = new TrackBar ()
-speedBar.Dock <- DockStyle.Fill
-speedBar.Location <- new Point (0, 0)
-speedBar.Maximum <- 1000
-speedBar.Text <- "goggog"
-
-settingsForm.Controls.Add(speedBar)
-
 let tick (first : Graphics) (second : Graphics) (secondBitmap : Bitmap) (font : Font) (brush : Brush) _ =
-    let dt = 24.0 * 60.0 * 60.0 * interval * (float speedBar.Value)
+    let dt = 24.0 * 60.0 * 60.0 * interval * dt_scale
     
     second.Clear Color.Black
 
@@ -64,6 +51,23 @@ let main argv =
 
         form.Text <- "Earth disappears"
 
+        form.KeyPress.Add
+            (fun (e : KeyPressEventArgs) ->
+                match e.KeyChar with
+                | 's' -> y_offset <- y_offset - move_offset
+                | 'w' -> y_offset <- y_offset + move_offset
+                | 'd' -> x_offset <- x_offset - move_offset
+                | 'a' -> x_offset <- x_offset + move_offset
+                | '+' -> dt_scale <- dt_scale + dt_scale_offset
+                | '-' ->
+                    if dt_scale <= 0.0 then ()
+                    else dt_scale <- dt_scale - dt_scale_offset
+                | '.' -> space_scale <- space_scale + space_scale_offset
+                | ',' ->
+                    if space_scale <= 0.0 then ()
+                    else space_scale <- space_scale - space_scale_offset
+                | n   -> printfn "%A" n)
+
         let g = form.CreateGraphics ()
         g.SmoothingMode <- Drawing2D.SmoothingMode.AntiAlias
 
@@ -83,12 +87,9 @@ let main argv =
 
         timer.Start ()
 
-        settingsForm.Show ()
         Application.Run form
 
         timer.Stop ()
-
-        speedBar.Dispose ()
         
         0
     else

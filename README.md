@@ -17,3 +17,7 @@ Simple Solar System simulator written in F#.
 ## Run
 
 `./main.exe solar_system.xml` or `mono main.exe solar_system.xml` on Linux and macOS.
+
+## Controls
+
+“W”, “A”, “S”, “D” – move, “+”, “-” – control time speed, “,”, “.” – control scale.
