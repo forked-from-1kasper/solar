@@ -4,7 +4,7 @@ Simple Solar System simulator written in F#.
 
 ## Screenshot
 
-![Screenshot](screenshot.jpg)
+![Screenshot](screenshot.png)
 
 ## Requirements
 
