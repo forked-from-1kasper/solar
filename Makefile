@@ -9,7 +9,7 @@ build:
 	$(FSC) -r $(OUTPUT) main.fs
 
 build-standalone: build
-	$(FSC) -r $(OUTPUT) main.fs -o main-standalone.exe
+	$(FSC) -r $(OUTPUT) main.fs -o main-standalone.exe --standalone
 
 clean:
 	rm *.dll *.exe main.fs
