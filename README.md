@@ -28,18 +28,14 @@ Or just `./main.exe` (`solar_system.xml` is the default).
 
 ## Controls
 
-“W”, “A”, “S”, “D” – move.
-
-“Q”, “E” – Z-axis move.
-
-“+”, “-” – control time speed.
-
-“,”, “.” – control scale.
-
-“8” – move to selected planet, “9”, “0” – select planet.
-
-“P” – change projection.
-
-“O” – toggle information.
-
-Space – toggle pause.
+| Keys    |                                              |
+|---------|----------------------------------------------|
+| W A S D | move                                         |
+| Q E     | axis move                                    |
+| + -     | control time speed                           |
+| , .     | control scale                                |
+| 8       | move to selected planet                      |
+| 9 0     | select planet                                |
+| P       | change projection                            |
+| O       | toggle information                           |
+| Space   | toggle pause                                 |
