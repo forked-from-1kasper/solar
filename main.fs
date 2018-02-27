@@ -63,7 +63,7 @@ let main argv =
                 | XZ -> YZ
                 | YZ -> XY
 
-        | n -> printfn "%A" n
+        | _ -> ()
 
     let tick (first : Graphics)
              (second : Graphics)
