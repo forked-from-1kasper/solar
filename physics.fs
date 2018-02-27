@@ -13,13 +13,14 @@ module Physics =
     let mutable dt_scale = 1.0
 
     let move_offset = 10.0
-    let mutable x_offset = float width / 2.0
-    let mutable y_offset = float height / 2.0
+    let mutable x_offset = 0.0
+    let mutable y_offset = 0.0
+    let mutable z_offset = 0.0
     
     let scale (v : Vector) =
         { x = (v.x / space_scale) + x_offset;
           y = (v.y / space_scale) + y_offset;
-          z = (v.z / space_scale) + y_offset }
+          z = (v.z / space_scale) + z_offset }
 
     let updateBody (bodies : Body list) (dt : float) (here : Body) =
         let allWithoutMe = List.filter ((<>) here) bodies

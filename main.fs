@@ -26,18 +26,18 @@ let main argv =
     let mutable current_planet = 0
     let moveToPlanet n =
         x_offset <-
-            (bodies.[n].pos.x / -space_scale) +
-            (float width / 2.0)
+            (bodies.[n].pos.x / -space_scale)
         y_offset <-
-            (bodies.[n].pos.y / -space_scale) +
-            (float height / 2.0)
+            (bodies.[n].pos.y / -space_scale)
     
     let keypressEvent (bodies : Body list) (e : KeyPressEventArgs) =
         match e.KeyChar with
-        | 's' -> y_offset <- y_offset - move_offset
-        | 'w' -> y_offset <- y_offset + move_offset
-        | 'd' -> x_offset <- x_offset - move_offset
-        | 'a' -> x_offset <- x_offset + move_offset
+        | 's' | 'S' -> y_offset <- y_offset - move_offset
+        | 'w' | 'W' -> y_offset <- y_offset + move_offset
+        | 'd' | 'D' -> x_offset <- x_offset - move_offset
+        | 'a' | 'A' -> x_offset <- x_offset + move_offset
+        | 'q' | 'Q' -> z_offset <- z_offset - move_offset
+        | 'e' | 'E' -> z_offset <- z_offset + move_offset        
 
         | '+' -> dt_scale <- dt_scale * dt_scale_offset
         | '-' -> dt_scale <- dt_scale / dt_scale_offset
@@ -54,6 +54,13 @@ let main argv =
         | '8' ->
             moveToPlanet current_planet
 
+        | 'p' | 'P' ->
+            currentProjection <-
+                match currentProjection with
+                | XY -> XZ
+                | XZ -> YZ
+                | YZ -> XY
+
         | _ -> ()
 
     let tick (first : Graphics)
@@ -68,14 +75,17 @@ let main argv =
         List.iter (drawBody second) bodies
 
         let rect = new RectangleF (0.0f, 0.0f, 0.0f, 0.0f)
-        let playerX = (x_offset - (float width / 2.0)) * -space_scale
-        let playerY = (y_offset - (float height / 2.0)) * -space_scale
+        let playerX = x_offset * -space_scale
+        let playerY = y_offset * -space_scale
+        let playerZ = z_offset * -space_scale
         let selectedPlanetId = bodies.[current_planet].id
+        let projection = currentProjection.ToString ()
         let text =
-            sprintf "player position {%f, %f} scale %f time_scale %f selected_planet %s"
-                playerX playerY
+            sprintf "player position {%f, %f, %f} scale %f time_scale %f planet %s projection %s"
+                playerX playerY playerZ
                 space_scale dt_scale
                 selectedPlanetId
+                projection
         second.DrawString (text, font, brush, rect)
         List.iteri
             (fun index text ->

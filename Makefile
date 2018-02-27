@@ -6,7 +6,7 @@ OUTPUT=solar.dll
 
 build:
 	$(FSC) $(FILES) -a -o $(OUTPUT)
-	fsc -r $(OUTPUT) main.fs
+	$(FSC) -r $(OUTPUT) main.fs
 
 clean:
 	rm *.dll *.exe main.fs
