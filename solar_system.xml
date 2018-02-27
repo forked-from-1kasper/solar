@@ -5,16 +5,7 @@
     <Pos x="147098290000.0" y="0.0" z="0.0" />
     <Mass>5972600000000000000000000.0</Mass>
 
-    <render radius="3.0" color="LightBlue" />
-  </Planet>
-
-  <Planet id="Venus">
-    <Speed x="0.0" y="-35020.0" z="0.0" />
-    <Acc x="0.0" y="0.0" z="0.0" />
-    <Pos x="107476259000.0" y="0.0" z="0.0" />
-    <Mass>4867500000000000000000000.0</Mass>
-
-    <render radius="2.8" color="Orange" />
+    <render radius="6378100.0" color="LightBlue" />
   </Planet>
 
   <Planet id="Mercury">
@@ -23,7 +14,16 @@
     <Pos x="46001009000.0" y="0.0" z="0.0" />
     <Mass>333022000000000000000000.0</Mass>
 
-    <render radius="1.0" color="Brown" />
+    <render radius="2439700.0" color="Brown" />
+  </Planet>
+  
+  <Planet id="Venus">
+    <Speed x="0.0" y="-35020.0" z="0.0" />
+    <Acc x="0.0" y="0.0" z="0.0" />
+    <Pos x="107476259000.0" y="0.0" z="0.0" />
+    <Mass>4867500000000000000000000.0</Mass>
+
+    <render radius="6051800.0" color="Orange" />
   </Planet>
 
   <Planet id="Mars">
@@ -32,7 +32,7 @@
     <Pos x="206655000000.0" y="0.0" z="0.0" />
     <Mass>641710000000000000000000.0</Mass>
 
-    <render radius="1.8" color="Red" />
+    <render radius="3396200.0" color="Red" />
   </Planet>
 
   <Planet id="Jupiter">
@@ -41,7 +41,7 @@
     <Pos x="740573600000.0" y="0.0" z="0.0" />
     <Mass>1898600000000000000000000000.0</Mass>
 
-    <render radius="5.0" color="Red" />
+    <render radius="71492000.0" color="Red" />
   </Planet>
 
   <Planet id="Saturn">
@@ -50,7 +50,7 @@
     <Pos x="1353572956000.0" y="0.0" z="0.0" />
     <Mass>568460000000000000000000000.0</Mass>
 
-    <render radius="4.5" color="Orange" />
+    <render radius="60268000.0" color="Orange" />
   </Planet>
 
   <Planet id="Uranus">
@@ -59,7 +59,7 @@
     <Pos x="2748938461000.0" y="0.0" z="0.0" />
     <Mass>86832000000000000000000000.0</Mass>
 
-    <render radius="4.0" color="Blue" />
+    <render radius="25559000.0" color="Blue" />
   </Planet>
 
   <Planet id="Neptune">
@@ -68,7 +68,7 @@
     <Pos x="4452940833000.0" y="0.0" z="0.0" />
     <Mass>102430000000000000000000000.0</Mass>
 
-    <render radius="3.8" color="Blue" />
+    <render radius="24764000.0" color="Blue" />
   </Planet>
   
   <Planet id="Sun">
@@ -77,6 +77,6 @@
     <Pos x="0.0" y="0.0" z="0.0" />
     <Mass>1988500000000000000000000000000.0</Mass>
 
-    <render radius="10.0" color="Yellow" />
+    <render radius="695510000.0" color="Yellow" />
   </Planet>
 </Planets>

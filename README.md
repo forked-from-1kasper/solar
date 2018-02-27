@@ -20,4 +20,4 @@ Simple Solar System simulator written in F#.
 
 ## Controls
 
-“W”, “A”, “S”, “D” – move, “+”, “-” – control time speed, “,”, “.” – control scale.
+“W”, “A”, “S”, “D” – move, “+”, “-” – control time speed, “,”, “.” – control scale, “8” – move to selected planet, “9”, “0” – select planet.
