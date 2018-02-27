@@ -38,4 +38,5 @@ Or just `./main.exe` (`solar_system.xml` is the default).
 | 9 0     | select planet                                |
 | P       | change projection                            |
 | O       | toggle information                           |
+| I       | toggle orbits                                |
 | Space   | toggle pause                                 |
