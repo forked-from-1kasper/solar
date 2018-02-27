@@ -8,11 +8,37 @@ open Solar.Constants
 open Solar.Physics
 open Solar.Graphics
 open Solar.Xml
+open Solar.Keymap
 
 let mutable bodies : Body list = []
 
 [<EntryPoint>]
-let main argv =
+let main argv =    
+    let mutable current_planet = 0
+
+    let mutable paused = false
+    let mutable showInfo = true
+    let mutable showOrbits = false
+
+    use form = new Form ()
+    
+    let size = Size (width, height)
+    form.Size <- size
+    form.MinimumSize <- size
+    form.MaximumSize <- size
+
+    form.Text <- "Earth disappears"
+
+    let firstBuffer = form.CreateGraphics ()
+    firstBuffer.SmoothingMode <- Drawing2D.SmoothingMode.AntiAlias
+
+    use secondBitmap = new Bitmap (Constants.width, Constants.height)
+    let secondBuffer = Graphics.FromImage secondBitmap
+    secondBuffer.SmoothingMode <- Drawing2D.SmoothingMode.AntiAlias
+
+    use orbitsBitmap = new Bitmap (Constants.width, Constants.height)
+    let orbitsBuffer = Graphics.FromImage orbitsBitmap
+
     let printParameters (bodies : Body list) =
         List.map
             (fun here ->
@@ -23,11 +49,6 @@ let main argv =
                     here.id)
             bodies
     
-    let mutable current_planet = 0
-
-    let mutable paused = false
-    let mutable showInfo = true
-    
     let moveToPlanet n =
         x_offset <-
             (bodies.[n].pos.x / -space_scale)
@@ -35,54 +56,58 @@ let main argv =
             (bodies.[n].pos.y / -space_scale)
     
     let keypressEvent (bodies : Body list) (e : KeyPressEventArgs) =
-        match e.KeyChar with
-        | 's' | 'S' -> y_offset <- y_offset - move_offset
-        | 'w' | 'W' -> y_offset <- y_offset + move_offset
-        | 'd' | 'D' -> x_offset <- x_offset - move_offset
-        | 'a' | 'A' -> x_offset <- x_offset + move_offset
-        | 'q' | 'Q' -> z_offset <- z_offset - move_offset
-        | 'e' | 'E' -> z_offset <- z_offset + move_offset        
+        let c = Char.ToLower e.KeyChar
+        if isMoving c then orbitsBuffer.Clear Color.Transparent
+        match c with
+        | DOWN -> y_offset <- y_offset - move_offset
+        | UP -> y_offset <- y_offset + move_offset
+        | RIGHT -> x_offset <- x_offset - move_offset
+        | LEFT -> x_offset <- x_offset + move_offset
+        | Z_DOWN -> z_offset <- z_offset - move_offset
+        | Z_UP -> z_offset <- z_offset + move_offset        
 
-        | '+' -> dt_scale <- dt_scale * dt_scale_offset
-        | '-' -> dt_scale <- dt_scale / dt_scale_offset
-        | ' ' -> paused <- not paused
+        | SCALE_UP -> space_scale <- space_scale * space_scale_offset
+        | SCALE_DOWN -> space_scale <- space_scale / space_scale_offset
 
-        | '.' -> space_scale <- space_scale * space_scale_offset
-        | ',' -> space_scale <- space_scale / space_scale_offset
-
-        | '0' ->
+        | PLANET_NEXT ->
             if current_planet + 1 = bodies.Length then ()
             else current_planet <- current_planet + 1
-        | '9' ->
+        | PLANET_BACK ->
             if current_planet = 0 then ()
             else current_planet <- current_planet - 1
-        | '8' ->
+        | PLANET_GO ->
             moveToPlanet current_planet
 
-        | 'p' | 'P' ->
+        | CHANGE_PROJECTION ->
             currentProjection <-
                 match currentProjection with
                 | XY -> XZ
                 | XZ -> YZ
                 | YZ -> XY
 
-        | 'o' | 'O' ->
-            showInfo <- not showInfo
+        | DT_SCALE_UP -> dt_scale <- dt_scale * dt_scale_offset
+        | DT_SCALE_DOWN -> dt_scale <- dt_scale / dt_scale_offset
+        | PAUSE -> paused <- not paused
 
+        | TOGGLE_INFO -> showInfo <- not showInfo
+        | TOGGLE_ORBITS -> showOrbits <- not showOrbits
         | _ -> ()
 
-    let tick (first : Graphics)
-             (second : Graphics)
-             (secondBitmap : Bitmap)
-             (font : Font) (brush : Brush) _ =
+    let tick (font : Font) (brush : Brush) _ =
         let dt = 24.0 * 60.0 * 60.0 * interval * dt_scale
 
         if not paused then
             bodies <- List.map (updateBody bodies dt) bodies
-    
-        second.Clear Color.Black
 
-        List.iter (drawBody second) bodies
+        secondBuffer.Clear Color.Black
+        if not showOrbits then orbitsBuffer.Clear Color.Transparent
+
+        List.iter
+            (fun b ->
+                drawBody secondBuffer b
+                drawBodyTag secondBuffer b)
+            bodies
+        List.iter (drawBodyPoint orbitsBuffer) bodies
 
         let rect = new RectangleF (0.0f, 0.0f, 0.0f, 0.0f)
         let playerX = x_offset * -space_scale
@@ -98,14 +123,15 @@ let main argv =
                 projection
 
         if showInfo then
-            second.DrawString (text, font, brush, rect)
+            secondBuffer.DrawString (text, font, brush, rect)
             List.iteri
                 (fun index text ->
                     let rect = new RectangleF (0.0f, float32 (index + 1) * 20.0f, 0.0f, 0.0f)
-                    second.DrawString (text, font, brush, rect))
+                    secondBuffer.DrawString (text, font, brush, rect))
                 (printParameters bodies)
 
-        first.DrawImageUnscaled(secondBitmap, 0, 0)
+        secondBuffer.DrawImageUnscaled(orbitsBitmap, 0, 0)
+        firstBuffer.DrawImageUnscaled(secondBitmap, 0, 0)
 
         ()
     
@@ -113,34 +139,18 @@ let main argv =
         if argv.Length >= 1 then argv.[0]
         else "solar_system.xml"
     bodies <- parseFile configFileName
-        
-    use form = new Form ()
-
-    let size = Size (width, height)
-    form.Size <- size
-    form.MinimumSize <- size
-    form.MaximumSize <- size
-
-    form.Text <- "Earth disappears"
 
     form.KeyPress.Add (keypressEvent bodies)
-
-    let g = form.CreateGraphics ()
-    g.SmoothingMode <- Drawing2D.SmoothingMode.AntiAlias
-
-    use bitmap = new Bitmap (width, height)
-    let second_buffer = Graphics.FromImage bitmap
-    second_buffer.SmoothingMode <- Drawing2D.SmoothingMode.AntiAlias
 
     use timer = new Timer ()
     timer.Interval <- int $ interval * 1000.0
 
-    second_buffer.Clear Color.Black
+    secondBuffer.Clear Color.Black
 
     use font = new Font ("Consolas", 8.0f)
     use brush = new SolidBrush (Color.White)
 
-    timer.Tick.Add (tick g second_buffer bitmap font brush)
+    timer.Tick.Add (tick font brush)
     timer.Start ()
 
     Application.Run form
