@@ -1,5 +1,5 @@
+# change to fsharc on Linux, macOS
 FSC=fsc
-FSI=fsi
 
 FILES=improvements.fs constants.fs vector.fs body.fs physics.fs graphics.fs xml.fs
 OUTPUT=solar.dll
@@ -10,6 +10,3 @@ build:
 
 clean:
 	rm *.dll *.exe main.fs
-
-run:
-	$(FSI) main.fsx
