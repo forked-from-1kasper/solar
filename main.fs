@@ -24,6 +24,7 @@ let main argv =
             bodies
     
     let mutable current_planet = 0
+    let mutable paused = false
     let moveToPlanet n =
         x_offset <-
             (bodies.[n].pos.x / -space_scale)
@@ -41,6 +42,7 @@ let main argv =
 
         | '+' -> dt_scale <- dt_scale * dt_scale_offset
         | '-' -> dt_scale <- dt_scale / dt_scale_offset
+        | ' ' -> paused <- not paused
 
         | '.' -> space_scale <- space_scale * space_scale_offset
         | ',' -> space_scale <- space_scale / space_scale_offset
@@ -61,14 +63,16 @@ let main argv =
                 | XZ -> YZ
                 | YZ -> XY
 
-        | _ -> ()
+        | n -> printfn "%A" n
 
     let tick (first : Graphics)
              (second : Graphics)
              (secondBitmap : Bitmap)
              (font : Font) (brush : Brush) _ =
         let dt = 24.0 * 60.0 * 60.0 * interval * dt_scale
-        bodies <- List.map (updateBody bodies dt) bodies
+
+        if not paused then
+            bodies <- List.map (updateBody bodies dt) bodies
     
         second.Clear Color.Black
 
