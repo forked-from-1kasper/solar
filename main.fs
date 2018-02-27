@@ -19,6 +19,7 @@ let main argv =
     let mutable paused = false
     let mutable showInfo = true
     let mutable showOrbits = false
+    let mutable timePassed = 0.0
 
     use form = new Form ()
     
@@ -95,6 +96,7 @@ let main argv =
 
     let tick (font : Font) (brush : Brush) _ =
         let dt = 24.0 * 60.0 * 60.0 * interval * dt_scale
+        timePassed <- timePassed + dt
 
         if not paused then
             bodies <- List.map (updateBody bodies dt) bodies
@@ -113,14 +115,20 @@ let main argv =
         let playerX = x_offset * -space_scale
         let playerY = y_offset * -space_scale
         let playerZ = z_offset * -space_scale
+        
         let selectedPlanetId = bodies.[current_planet].id
+        
         let projection = currentProjection.ToString ()
+
+        let yearsPassed = timePassed / (60.0 * 60.0 * 24.0 * 365.0)
+        
         let text =
-            sprintf "player position {%f, %f, %f} scale %f time_scale %f planet %s projection %s"
+            sprintf "player position {%f, %f, %f} scale %f time_scale %f planet %s projection %s passed %.2f years"
                 playerX playerY playerZ
                 space_scale dt_scale
                 selectedPlanetId
                 projection
+                yearsPassed
 
         if showInfo then
             secondBuffer.DrawString (text, font, brush, rect)
