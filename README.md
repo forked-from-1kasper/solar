@@ -40,4 +40,6 @@ Or just `./main.exe` (`solar_system.xml` is the default).
 
 “P” – change projection.
 
+“O” – toggle information.
+
 Space – toggle pause.

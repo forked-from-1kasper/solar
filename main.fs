@@ -24,7 +24,10 @@ let main argv =
             bodies
     
     let mutable current_planet = 0
+
     let mutable paused = false
+    let mutable showInfo = true
+    
     let moveToPlanet n =
         x_offset <-
             (bodies.[n].pos.x / -space_scale)
@@ -63,6 +66,9 @@ let main argv =
                 | XZ -> YZ
                 | YZ -> XY
 
+        | 'o' | 'O' ->
+            showInfo <- not showInfo
+
         | _ -> ()
 
     let tick (first : Graphics)
@@ -90,12 +96,14 @@ let main argv =
                 space_scale dt_scale
                 selectedPlanetId
                 projection
-        second.DrawString (text, font, brush, rect)
-        List.iteri
-            (fun index text ->
-                let rect = new RectangleF (0.0f, float32 (index + 1) * 20.0f, 0.0f, 0.0f)
-                second.DrawString (text, font, brush, rect))
-            (printParameters bodies)
+
+        if showInfo then
+            second.DrawString (text, font, brush, rect)
+            List.iteri
+                (fun index text ->
+                    let rect = new RectangleF (0.0f, float32 (index + 1) * 20.0f, 0.0f, 0.0f)
+                    second.DrawString (text, font, brush, rect))
+                (printParameters bodies)
 
         first.DrawImageUnscaled(secondBitmap, 0, 0)
 
