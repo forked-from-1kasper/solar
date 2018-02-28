@@ -4,7 +4,7 @@ module Physics =
     open Solar.Constants
     let gravitionalForce (first : Body) (second : Body) =
         let distance = (second.pos - first.pos.Neg).Abs
-        G * (second.m / (distance ** 3.0)) * (second.pos - first.pos)
+        (second.sgp / (distance ** 3.0)) * (second.pos - first.pos)
 
     let space_scale_offset = 2.0
     let mutable space_scale = 10.0 ** 9.0
@@ -32,7 +32,7 @@ module Physics =
         { acc = acc;
           speed = speed;
           pos = pos;
-          m = here.m;
+          sgp = here.sgp;
           id = here.id;
 
           visibleRadius = here.visibleRadius;

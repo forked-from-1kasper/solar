@@ -6,7 +6,7 @@ type Body =
     { acc : Vector;
       speed : Vector;
       pos : Vector;
-      m : float;
+      sgp : float;
       id : string;
 
       visibleRadius : float;

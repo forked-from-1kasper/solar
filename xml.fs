@@ -40,7 +40,7 @@ module Xml =
         let acc = getVector "Acc"
         let pos = getVector "Pos"
 
-        let m = parseNumber (safeSelect "Mass" v).InnerText
+        let sgp = parseNumber (safeSelect "SGP" v).InnerText
 
         let render = safeSelect "render" v
         let visibleRadius =
@@ -53,7 +53,9 @@ module Xml =
         { speed = speed;
           acc = acc;
           pos = pos;
-          m = m;
+          // This is standard gravitational parameter
+          // https://en.wikipedia.org/wiki/Standard_gravitational_parameter
+          sgp = sgp;
           id = id;
 
           visibleRadius = visibleRadius;
