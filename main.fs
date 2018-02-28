@@ -96,10 +96,10 @@ let main argv =
 
     let tick (font : Font) (brush : Brush) _ =
         let dt = 24.0 * 60.0 * 60.0 * interval * dt_scale
-        timePassed <- timePassed + dt
 
         if not paused then
             bodies <- List.map (updateBody bodies dt) bodies
+            timePassed <- timePassed + dt
 
         secondBuffer.Clear Color.Black
         if not showOrbits then orbitsBuffer.Clear Color.Transparent

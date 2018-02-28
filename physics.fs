@@ -3,7 +3,7 @@ namespace Solar
 module Physics =
     open Solar.Constants
     let gravitionalForce (first : Body) (second : Body) =
-        let distance = (second.pos - first.pos.Neg).Abs
+        let distance = (second.pos - first.pos).Abs
         (second.sgp / (distance ** 3.0)) * (second.pos - first.pos)
 
     let space_scale_offset = 2.0
@@ -26,6 +26,7 @@ module Physics =
         let allWithoutMe = List.filter ((<>) here) bodies
         let acc =
             List.sumBy (gravitionalForce here) allWithoutMe
+
         let speed = here.speed + (acc * dt)
         let pos = here.pos + (speed * dt)
 
