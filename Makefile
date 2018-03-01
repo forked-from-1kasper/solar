@@ -6,10 +6,10 @@ OUTPUT=solar.dll
 
 build:
 	$(FSC) $(FILES) -a -o $(OUTPUT)
-	$(FSC) -r $(OUTPUT) main.fs
+	$(FSC) -r $(OUTPUT) main.fs -o solar-bin.exe
 
 build-standalone: build
-	$(FSC) -r $(OUTPUT) main.fs -o main-standalone.exe --standalone
+	$(FSC) -r $(OUTPUT) main.fs -o solar-standalone.exe --standalone
 
 clean:
-	rm *.dll *.exe main.fs
+	rm *.dll *.exe
