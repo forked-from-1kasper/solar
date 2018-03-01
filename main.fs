@@ -83,7 +83,7 @@ let main argv =
     let printParameters (bodies : Body list) =
         List.map
             (fun here ->
-                sprintf "pos %s speed %s acc %s id %s"
+                sprintf "pos %s, speed %s, acc %s, id %s"
                     (string here.pos)
                     (string here.speed)
                     (string here.acc)
@@ -168,7 +168,7 @@ let main argv =
         let yearsPassed = timePassed / (60.0 * 60.0 * 24.0 * 365.0)
         
         let text =
-            sprintf "player position {%f, %f, %f} scale %f time_scale %f planet %s projection %s passed %.2f years"
+            sprintf "player position {%f, %f, %f}, scale %f, time_scale %f, planet %s, projection %s, passed %.2f years"
                 playerX playerY playerZ
                 space_scale dt_scale
                 selectedPlanetId
