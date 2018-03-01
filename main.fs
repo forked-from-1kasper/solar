@@ -12,6 +12,44 @@ open Solar.Keymap
 
 let mutable bodies : Body list = []
 
+let doc = "
+Options:
+  -c, --config  path to configuration file
+  -s, --step    simultation time step (in seconds)
+  --help        this message
+
+Controls:
+  | Keys    |                         |
+  |---------|-------------------------|
+  | W A S D | move                    |
+  | Q E     | axis move               |
+  | + -     | control time speed      |
+  | , .     | control scale           |
+  | 8       | move to selected planet |
+  | 9 0     | select planet           |
+  | P       | change projection       |
+  | O       | toggle information      |
+  | I       | toggle orbits           |
+  | Space   | toggle pause            |
+"
+
+let rec parseArgv (argv : string list) : unit =
+    match argv with
+    | "--config" :: name :: tail | "-c" :: name :: tail ->
+        bodies <- parseFile name
+        parseArgv tail
+    | "--step" :: stepString :: tail | "-s" :: stepString :: tail ->
+        let stepValue = Double.Parse stepString
+        step <- stepValue
+        parseArgv tail
+    | "--help" :: _ ->
+        Console.WriteLine (doc)
+        exit 0
+    | [] -> ()
+    | head :: _ ->
+        raise <| new ArgumentException (sprintf "unknown argument ‘%s’" head)
+        ()
+
 [<EntryPoint>]
 let main argv =    
     let mutable current_planet = 0
@@ -20,6 +58,8 @@ let main argv =
     let mutable showInfo = true
     let mutable showOrbits = false
     let mutable timePassed = 0.0
+
+    parseArgv $ List.ofArray argv
 
     use form = new Form ()
     
@@ -98,7 +138,12 @@ let main argv =
         let dt = 24.0 * 60.0 * 60.0 * interval * dt_scale
 
         if not paused then
-            bodies <- List.map (updateBody bodies dt) bodies
+            let dtAmount = int $ dt / step
+
+            for _ in 0 .. dtAmount do
+                bodies <- List.map (updateBody bodies step) bodies
+            bodies <- List.map (updateBody bodies $ dt % step) bodies            
+
             timePassed <- timePassed + dt
 
         secondBuffer.Clear Color.Black
@@ -143,10 +188,7 @@ let main argv =
 
         ()
     
-    let configFileName =
-        if argv.Length >= 1 then argv.[0]
-        else "solar_system.xml"
-    bodies <- parseFile configFileName
+    if List.isEmpty bodies then bodies <- parseFile "solar_system.xml"
 
     form.KeyPress.Add (keypressEvent bodies)
 

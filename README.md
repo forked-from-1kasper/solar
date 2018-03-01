@@ -22,9 +22,11 @@ https://github.com/forked-from-1kasper/solar/releases
 
 ## Run
 
-`./main.exe solar_system.xml` or `mono main.exe solar_system.xml` on Linux and macOS.
+`./main.exe --config solar_system.xml` or `mono main.exe --config solar_system.xml` on Linux and macOS.
 
 Or just `./main.exe` (`solar_system.xml` is the default).
+
+`./main.exe --help` for help.
 
 ## Controls
 

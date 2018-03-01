@@ -21,6 +21,8 @@ type Vector =
               z = k * a.z }
         static member (*) (a : Vector, k : float) =
             k * a
+        static member (/) (a : Vector, k : float) =
+            a * (1.0/k)
         static member Zero = { x = 0.0; y = 0.0; z = 0.0 }
 
         override v.ToString () =

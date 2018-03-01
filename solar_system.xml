@@ -8,6 +8,15 @@
     <render radius="6378100.0" color="LightBlue" />
   </Planet>
 
+  <Planet id="Moon">
+    <Speed x="1023.0" y="29783.0" z="89.0" />
+    <Acc x="0.0" y="0.0" z="0.0" />
+    <Pos x="147098290000.0" y="363104000.0" z="0.0" />
+    <SGP>4904869500000.0</SGP>
+
+    <render radius="1738140.0" color="Gray" />
+  </Planet>  
+  
   <Planet id="Mercury">
     <Speed x="0.0" y="47360.0" z="0.0" />
     <Acc x="0.0" y="0.0" z="0.0" />

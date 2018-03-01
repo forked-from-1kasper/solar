@@ -16,6 +16,8 @@ module Physics =
     let mutable x_offset = 0.0
     let mutable y_offset = 0.0
     let mutable z_offset = 0.0
+
+    let mutable step = 60.0 * 60.0
     
     let scale (v : Vector) =
         { x = (v.x / space_scale) + x_offset;
