@@ -14,9 +14,11 @@ let mutable bodies : Body list = []
 
 let doc = "
 Options:
+  --help        this message
   -c, --config  path to configuration file
   -s, --step    simultation time step (in seconds)
-  --help        this message
+  -w, --width   set width
+  -h, --height  set height
 
 Controls:
   | Keys    |                         |
@@ -38,17 +40,43 @@ let rec parseArgv (argv : string list) : unit =
     | "--config" :: name :: tail | "-c" :: name :: tail ->
         bodies <- parseFile name
         parseArgv tail
+
     | "--step" :: stepString :: tail | "-s" :: stepString :: tail ->
-        let stepValue = Double.Parse stepString
+        let (correct, stepValue) = Double.TryParse stepString
+        if not correct then
+            printfn "incorrect ‘--step’"
+            exit 0
+
         step <- stepValue
         parseArgv tail
+
     | "--help" :: _ ->
         Console.WriteLine (doc)
         exit 0
+
+    | "--width" :: widthString :: tail | "-w" :: widthString :: tail ->
+        let (correct, newWidth) = Int32.TryParse widthString
+        if not correct then
+            printfn "incorrect ‘--width’"
+            exit 0
+        
+        width <- newWidth
+        parseArgv tail
+
+    | "--height" :: heightString :: tail | "-h" :: heightString :: tail ->
+        let (correct, newHeight) = Int32.TryParse heightString
+        if not correct then
+            printfn "incorrect ‘--height’"
+            exit 0
+        
+        height <- newHeight
+        parseArgv tail
+
     | [] -> ()
+
     | head :: _ ->
-        raise <| new ArgumentException (sprintf "unknown argument ‘%s’" head)
-        ()
+        printfn "unknown argument ‘%s’" head
+        exit 0
 
 [<EntryPoint>]
 let main argv =    

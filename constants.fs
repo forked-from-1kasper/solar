@@ -1,8 +1,8 @@
 namespace Solar
 
 module Constants =
-    let width = 1024
-    let height = 600
+    let mutable width = 1024
+    let mutable height = 600
 
     let interval = 1.0 / 30.0
 
