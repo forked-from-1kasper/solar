@@ -18,7 +18,7 @@ https://github.com/forked-from-1kasper/solar/releases
 
 ## Build
 
-`make`.
+`MSBuild` or Visual Studio.
 
 ## Run
 
