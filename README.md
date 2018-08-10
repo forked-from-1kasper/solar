@@ -8,9 +8,9 @@ Simple Solar System simulator written in F#.
 
 ## Requirements
 
-.NET (on Windows, I use 4.6.1) or mono (on Linux, I use Fedora 27, and macOS, where I did not test, and one person says that it does not work; I do not know why).
+.NET (on Windows, I use 4.7.1) or mono (on Linux, I use Fedora 27, and macOS; where I did not test, and one person says that it does not work; I do not know why).
 
-For build: F# (4.1), GNU Make (I use cygwin).
+For build: F# (4.1), MSBuild.
 
 ## Binaries
 
