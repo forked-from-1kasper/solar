@@ -1,3 +1,5 @@
+module Solar.Main
+
 open System.Windows.Forms
 open System.Drawing
 open System
