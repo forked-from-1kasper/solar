@@ -55,7 +55,7 @@ module Xml =
           pos = pos;
           // This is standard gravitational parameter
           // https://en.wikipedia.org/wiki/Standard_gravitational_parameter
-          sgp = sgp;
+          μ = sgp;
           id = id;
 
           visibleRadius = visibleRadius;

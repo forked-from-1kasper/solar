@@ -1,4 +1,4 @@
-namespace Solar
+﻿namespace Solar
 
 open System.Drawing
 
@@ -7,7 +7,7 @@ type Body =
     { acc : Vector;
       speed : Vector;
       pos : Vector;
-      sgp : float;
+      μ : float;
       id : string;
 
       visibleRadius : float;

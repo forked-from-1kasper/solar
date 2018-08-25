@@ -1,6 +1,6 @@
 # Solar
 
-Simple Solar System simulator written in F#.
+Simple Solar System simulator written in F#. Simulator can be configured through the xml configuration file.
 
 ## Screenshot
 

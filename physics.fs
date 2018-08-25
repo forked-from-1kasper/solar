@@ -1,10 +1,9 @@
-namespace Solar
+﻿namespace Solar
 
 module Physics =
-    open Solar.Constants
     let gravitionalForce (first : Body) (second : Body) =
         let distance = (second.pos - first.pos).Abs
-        (second.sgp / (distance ** 3.0)) * (second.pos - first.pos)
+        (second.μ / (distance ** 3.0)) * (second.pos - first.pos)
 
     let space_scale_offset = 2.0
     let mutable space_scale = 10.0 ** 9.0
@@ -35,7 +34,7 @@ module Physics =
         { acc = acc;
           speed = speed;
           pos = pos;
-          sgp = here.sgp;
+          μ = here.μ;
           id = here.id;
 
           visibleRadius = here.visibleRadius;
