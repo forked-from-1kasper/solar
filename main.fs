@@ -81,7 +81,7 @@ let rec parseArgv (argv : string list) : unit =
         exit 0
 
 [<EntryPoint>]
-let main argv =    
+let main argv =
     let mutable current_planet = 0
 
     let mutable paused = false
