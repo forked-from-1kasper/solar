@@ -1,5 +1,16 @@
 namespace Solar
 
+module Tuple =
+    let map (f : 'a -> 'b) (g : 'c -> 'd) : 'a * 'c -> 'b * 'd = function
+    | (a, b) -> (f a, g b)
+
+    let map3 (f : 'a -> 'b) (g : 'c -> 'd) (h : 'e -> 'f) :
+             'a * 'c * 'e -> 'b * 'd * 'f = function
+    | (a, b, c) -> (f a, g b, h c)
+
+    let mapId (f : 'a -> 'b) : 'a * 'a -> 'b * 'b = map f f
+    let map3Id (f : 'a -> 'b) : 'a * 'a * 'a -> 'b * 'b * 'b = map3 f f f
+
 module Xml =
     open System
     open System.IO
@@ -23,9 +34,12 @@ module Xml =
         raw.Value
     
     let private parseVector (v : XmlNode) : Vector =
-        let x = parseNumber <| safeSelectAttribute "x" v
-        let y = parseNumber <| safeSelectAttribute "y" v
-        let z = parseNumber <| safeSelectAttribute "z" v
+        //let x = parseNumber <| safeSelectAttribute "x" v
+        //let y = parseNumber <| safeSelectAttribute "y" v
+        //let z = parseNumber <| safeSelectAttribute "z" v
+        let (x, y, z) =
+            Tuple.map3Id (fun s -> parseNumber <| safeSelectAttribute s v)
+                         ("x", "y", "z")
 
         { x = x; y = y; z = z }
 

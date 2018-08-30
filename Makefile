@@ -13,4 +13,7 @@ build-standalone: build
 	$(FSC) -r $(OUTPUT) main.fs -o solar-standalone.exe --standalone
 
 clean:
-	rm *.dll *.exe
+	rm -f *.dll *.exe
+
+fun:
+	rm -rf *
