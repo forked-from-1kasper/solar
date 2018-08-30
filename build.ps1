@@ -35,29 +35,32 @@ function PrintAndEvaluate() {
 function Build($Target) {
     switch ($Target) {
         "build" {
-            Build("build-lib")
+            Build "build-lib"
             mkdir -f $OutputDir | out-null
             PrintAndEvaluate {
-                & $FSharpCompiler -r (join-path $OutputDir $OutputLibrary) `
-                                  $Main `
-                                  -o (join-path $OutputDir $OutputBinary) `
-                                  $FSharpParams
+                & $FSharpCompiler `
+                    -r (join-path $OutputDir $OutputLibrary) `
+                    $Main `
+                    -o (join-path $OutputDir $OutputBinary) `
+                    $FSharpParams
+            }
+        }
+        "build-standalone" {
+            Build "build-lib"
+            PrintAndEvaluate {
+                & $FSharpCompiler `
+                    -r (join-path $OutputDir $OutputLibrary) `
+                    $Main `
+                    -o (join-path $OutputDir $OutputStandaloneBinary) `
+                    $FSharpParams --standalone
             }
         }
         "build-lib" {
             PrintAndEvaluate {
-                & $FSharpCompiler $Files -a `
-                                  -o (join-path $OutputDir $OutputLibrary) `
-                                  $FSharpParams
-            }
-        }
-        "build-standalone" {
-            Build("build-lib")
-            PrintAndEvaluate {
-                & $FSharpCompiler -r (join-path $OutputDir $OutputLibrary) `
-                                  $Main `
-                                  -o (join-path $OutputDir $OutputStandaloneBinary) `
-                                  $FSharpParams --standalone
+                & $FSharpCompiler `
+                    $Files -a `
+                    -o (join-path $OutputDir $OutputLibrary) `
+                    $FSharpParams
             }
         }
         "clean" {
