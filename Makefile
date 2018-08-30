@@ -1,6 +1,6 @@
-# change to fsi on Windows
+# change to fsc on Windows
 # change to fsharc on Linux, macOS
-FSC=fsi
+FSC=fsc
 
 FILES=improvements.fs constants.fs vector.fs body.fs physics.fs graphics.fs xml.fs keymap.fs
 OUTPUT=solar.dll
