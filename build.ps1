@@ -7,7 +7,7 @@ $FSharpParams = @("--nologo", "--nowarn:82")
 
 $OutputLibrary = "solar.dll"
 $OutputBinary = "solar-bin.exe"
-$OutputStanaloneBinary = "solar-standalone.exe"
+$OutputStandaloneBinary = "solar-standalone.exe"
 $OutputDir = "Build"
 
 $Files = @('improvements.fs'
