@@ -4,45 +4,7 @@ param (
     [System.ConsoleColor] $InfoColor = [System.ConsoleColor]::White
 )
 
-function New-Target() {
-    param (
-        [parameter(Mandatory=$true)][ScriptBlock] $Actions,
-        [parameter(Mandatory=$true)][string] $Comment,
-        [string[]] $Depends = @()
-    )
-    New-Object -TypeName PSObject -Property @{
-        'Actions' = $Actions;
-        'Comment' = $Comment;
-        'Depends' = $Depends
-    }
-}
-
-function PrintAndEvaluate() {
-    param (
-        [parameter(Mandatory=$true)][string] $Comment,
-        [parameter(Mandatory=$true)][ScriptBlock] $ScriptBlock
-    )
-    Write-Host "Info: $Comment" -ForegroundColor $InfoColor
-
-    $ExecutionContext.InvokeCommand.ExpandString(
-        $ScriptBlock.ToString()
-    ) -Split "`n" | % {
-        Write-Host -NoNewline '>'
-        Write-Host -ForegroundColor $CommandColor $_
-    }
-    & $ScriptBlock
-}
-
-function Build([string] $Target, $Targets) {
-    if (-Not $Targets.ContainsKey($Target)) {
-        Write-Error ('target "{0}" not found' -f $Target)
-        exit
-    }
-
-    $default = $Targets[$Target]
-    $default.Depends |% { Build $_ $Targets }
-    PrintAndEvaluate $default.Comment $default.Actions
-}
+. (Join-Path (Get-Location) buildCore.ps1)
 
 $FSharpCompiler = "fsc"
 $FSharpParams = @("--nologo", "--nowarn:82")
@@ -87,7 +49,7 @@ $BuildLib = {
 }
 
 $Clean = {
-    Remove-Item -Recurse $OutputDir
+    Remove-Item -Confirm -Recurse $OutputDir
 }
 
 $Targets = @{
@@ -103,8 +65,8 @@ $Targets = @{
         New-Target -Actions $BuildLib `
                    -Comment "building library $OutputLibrary";
     'clean' =
-        New-Target -Actions $Clean `
-                   -Comment "removing $OutputDir"
+        New-Target -Comment "removing $OutputDir" `
+                   -Actions $Clean
 }
 
 Build $Target $Targets
