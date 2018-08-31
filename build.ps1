@@ -14,59 +14,49 @@ $OutputBinary = "solar-bin.exe"
 $OutputStandaloneBinary = "solar-standalone.exe"
 $OutputDir = "Build"
 
-$Files = @('improvements.fs'
-           'constants.fs'
-           'vector.fs'
-           'body.fs'
-           'physics.fs'
-           'graphics.fs'
-           'xml.fs'
-           'keymap.fs')
+$Files = @(
+    'improvements.fs'
+    'constants.fs'
+    'vector.fs'
+    'body.fs'
+    'physics.fs'
+    'graphics.fs'
+    'xml.fs'
+    'keymap.fs'
+)
 $Main = "main.fs"
-
-$BuildExec = {
-    New-Item -Type Directory -Force $OutputDir | Out-Null
-    & $FSharpCompiler `
-        -r (Join-Path $OutputDir $OutputLibrary) `
-        $Main `
-        -o (Join-Path $OutputDir $OutputBinary) `
-        $FSharpParams
-}
-
-$BuildStandalone = {
-    & $FSharpCompiler `
-        -r (Join-Path $OutputDir $OutputLibrary) `
-        $Main `
-        -o (Join-Path $OutputDir $OutputStandaloneBinary) `
-        $FSharpParams --standalone
-}
-
-$BuildLib = {
-    & $FSharpCompiler `
-        $Files -a `
-        -o (Join-Path $OutputDir $OutputLibrary) `
-        $FSharpParams
-}
-
-$Clean = {
-    Remove-Item -Confirm -Recurse $OutputDir
-}
 
 $Targets = @{
     'build' =
-        New-Target -Actions $BuildExec `
-                   -Comment "building executable $OutputBinary" `
-                   -Depends @("build-lib");
+        New-Target -Comment "building executable $OutputBinary" `
+                   -Depends @("build-lib") {
+            New-Item -Type Directory -Force $OutputDir | Out-Null
+            & $FSharpCompiler `
+                -r (Join-Path $OutputDir $OutputLibrary) `
+                $Main `
+                -o (Join-Path $OutputDir $OutputBinary) `
+                $FSharpParams
+        };
     'build-standalone' =
-        New-Target -Actions $BuildStandalone `
-                   -Comment "building standalone executable $OutputStandaloneBinary" `
-                   -Depends @("build-lib");
+        New-Target -Comment "building standalone executable $OutputStandaloneBinary" `
+                   -Depends @("build-lib") {
+            & $FSharpCompiler `
+                -r (Join-Path $OutputDir $OutputLibrary) `
+                $Main `
+                -o (Join-Path $OutputDir $OutputStandaloneBinary) `
+                $FSharpParams --standalone
+        };
     'build-lib' =
-        New-Target -Actions $BuildLib `
-                   -Comment "building library $OutputLibrary";
+        New-Target -Comment "building library $OutputLibrary" {
+            & $FSharpCompiler `
+                $Files -a `
+                -o (Join-Path $OutputDir $OutputLibrary) `
+            $FSharpParams
+        };
     'clean' =
-        New-Target -Comment "removing $OutputDir" `
-                   -Actions $Clean
+        New-Target -Comment "removing $OutputDir" {
+            Remove-Item -Confirm -Recurse $OutputDir
+        }
 }
 
 Build $Target $Targets
