@@ -1,14 +1,20 @@
+class Target {
+    [parameter(Mandatory=$true)][ScriptBlock] $Actions
+    [parameter(Mandatory=$true)][string] $Comment
+    [string[]] $Depends
+}
+
 function New-Target() {
     param (
         [parameter(Mandatory=$true)][ScriptBlock] $Actions,
         [parameter(Mandatory=$true)][string] $Comment,
         [string[]] $Depends = @()
     )
-    New-Object -TypeName PSObject -Property @{
-        'Actions' = $Actions;
-        'Comment' = $Comment;
-        'Depends' = $Depends
-    }
+    $res = New-Object Target
+    $res.Actions = $Actions
+    $res.Comment = $Comment
+    $res.Depends = $Depends
+    return $res
 }
 
 function PrintAndEvaluate() {

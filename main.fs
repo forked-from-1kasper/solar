@@ -135,7 +135,7 @@ let main argv =
         | RIGHT -> x_offset <- x_offset - move_offset
         | LEFT -> x_offset <- x_offset + move_offset
         | Z_DOWN -> z_offset <- z_offset - move_offset
-        | Z_UP -> z_offset <- z_offset + move_offset        
+        | Z_UP -> z_offset <- z_offset + move_offset
 
         | SCALE_UP -> space_scale <- space_scale * space_scale_offset
         | SCALE_DOWN -> space_scale <- space_scale / space_scale_offset

@@ -34,9 +34,6 @@ module Xml =
         raw.Value
     
     let private parseVector (v : XmlNode) : Vector =
-        //let x = parseNumber <| safeSelectAttribute "x" v
-        //let y = parseNumber <| safeSelectAttribute "y" v
-        //let z = parseNumber <| safeSelectAttribute "z" v
         let (x, y, z) =
             Tuple.map3Id (fun s -> parseNumber <| safeSelectAttribute s v)
                          ("x", "y", "z")
