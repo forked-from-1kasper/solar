@@ -1,10 +1,6 @@
-param (
-    [string] $Target = "build",
-    [System.ConsoleColor] $CommandColor = [System.ConsoleColor]::Gray,
-    [System.ConsoleColor] $InfoColor = [System.ConsoleColor]::White
-)
+param ([string] $Target = "build")
 
-. (Join-Path (Get-Location) buildCore.ps1)
+Import-Module PSBuild
 
 $FSharpCompiler = "fsc"
 $FSharpParams = @("--nologo", "--nowarn:82")
@@ -59,4 +55,4 @@ $Targets = @{
         }
 }
 
-Build $Target $Targets
+Start-Building $Target $Targets
