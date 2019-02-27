@@ -13,13 +13,13 @@ module Xml =
     let private safeSelect (s : string) (n : XmlNode) =
         let raw = n.SelectSingleNode s
         if isNull raw then
-            raise <| new ArgumentException (sprintf "Tag ‘%s’ is missing." s)
+            raise <| ArgumentException (sprintf "Tag ‘%s’ is missing." s)
         raw
 
     let private safeSelectAttribute (s : string) (n : XmlNode) =
         let raw = n.Attributes.[s]
         if isNull raw then
-            raise <| new ArgumentException (sprintf "Attribute ‘%s’ is missing." s)
+            raise <| ArgumentException (sprintf "Attribute ‘%s’ is missing." s)
         raw.Value
     
     let private parseVector (v : XmlNode) : Vector =
@@ -62,11 +62,13 @@ module Xml =
           visibleColor = visibleColor }
 
     let private parsePlanets (v : XmlDocument) : Body list =
-        let planets = v.SelectNodes "//Planets/Planet"
+        let planets = v.SelectNodes "//Objects/Planet"
+        let stars = v.SelectNodes "//Objects/Star"
         if isNull planets then
-            raise <| new ArgumentException ("Tag ‘Planets’ is missing.")
+            raise <| ArgumentException ("Tag ‘Planets’ is missing.")
 
         Seq.cast<XmlNode> planets
+        |> Seq.append (Seq.cast<XmlNode> stars)
         |> Seq.map parsePlanet
         |> List.ofSeq
 
@@ -75,7 +77,7 @@ module Xml =
             use sr = new StreamReader (fileName) in
                 sr.ReadToEnd ()
 
-        let doc = new XmlDocument ()
+        let doc = XmlDocument ()
         doc.LoadXml text
 
         parsePlanets doc

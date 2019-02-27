@@ -5,23 +5,23 @@ module Physics =
         let distance = (second.pos - first.pos).Abs
         (second.μ / (distance ** 3.0)) * (second.pos - first.pos)
 
-    let space_scale_offset = 2.0
-    let mutable space_scale = 10.0 ** 9.0
+    let spaceScaleOffset = 2.0
+    let mutable spaceScale = 10.0 ** 9.0
 
-    let dt_scale_offset = 2.0
-    let mutable dt_scale = 1.0
+    let dtScaleOffset = 2.0
+    let mutable dtScale = 1.0
 
-    let move_offset = 10.0
-    let mutable x_offset = 0.0
-    let mutable y_offset = 0.0
-    let mutable z_offset = 0.0
+    let moveOffset = 10.0
+    let mutable xOffset = 0.0
+    let mutable yOffset = 0.0
+    let mutable zOffset = 0.0
 
     let mutable step = 60.0 * 60.0
     
     let scale (v : Vector) =
-        { x = (v.x / space_scale) + x_offset;
-          y = (v.y / space_scale) + y_offset;
-          z = (v.z / space_scale) + z_offset }
+        { x = (v.x / spaceScale) + xOffset;
+          y = (v.y / spaceScale) + yOffset;
+          z = (v.z / spaceScale) + zOffset }
 
     let updateBody (bodies : Body list) (dt : float) (here : Body) =
         let allWithoutMe = List.filter ((<>) here) bodies

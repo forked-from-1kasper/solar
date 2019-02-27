@@ -39,11 +39,13 @@ Controls:
 
 let rec parseArgv (argv : string list) : unit =
     match argv with
-    | "--config" :: name :: tail | "-c" :: name :: tail ->
+    | "--config" :: name :: tail
+    | "-c" :: name :: tail ->
         bodies <- parseFile name
         parseArgv tail
 
-    | "--step" :: stepString :: tail | "-s" :: stepString :: tail ->
+    | "--step" :: stepString :: tail
+    | "-s" :: stepString :: tail ->
         let (correct, stepValue) = Double.TryParse stepString
         if not correct then
             printfn "incorrect ‘--step’"
@@ -56,7 +58,8 @@ let rec parseArgv (argv : string list) : unit =
         Console.WriteLine (doc)
         exit 0
 
-    | "--width" :: widthString :: tail | "-w" :: widthString :: tail ->
+    | "--width" :: widthString :: tail
+    | "-w" :: widthString :: tail ->
         let (correct, newWidth) = Int32.TryParse widthString
         if not correct then
             printfn "incorrect ‘--width’"
@@ -65,7 +68,8 @@ let rec parseArgv (argv : string list) : unit =
         width <- newWidth
         parseArgv tail
 
-    | "--height" :: heightString :: tail | "-h" :: heightString :: tail ->
+    | "--height" :: heightString :: tail
+    | "-h" :: heightString :: tail ->
         let (correct, newHeight) = Int32.TryParse heightString
         if not correct then
             printfn "incorrect ‘--height’"
@@ -82,7 +86,7 @@ let rec parseArgv (argv : string list) : unit =
 
 [<EntryPoint>]
 let main argv =    
-    let mutable current_planet = 0
+    let mutable currentPlanet = 0
 
     let mutable paused = false
     let mutable showInfo = true
@@ -121,33 +125,33 @@ let main argv =
             bodies
     
     let moveToPlanet n =
-        x_offset <-
-            (bodies.[n].pos.x / -space_scale)
-        y_offset <-
-            (bodies.[n].pos.y / -space_scale)
+        xOffset <-
+            (bodies.[n].pos.x / -spaceScale)
+        yOffset <-
+            (bodies.[n].pos.y / -spaceScale)
     
     let keypressEvent (bodies : Body list) (e : KeyPressEventArgs) =
         let c = Char.ToLower e.KeyChar
         if isMoving c then orbitsBuffer.Clear Color.Transparent
         match c with
-        | DOWN -> y_offset <- y_offset - move_offset
-        | UP -> y_offset <- y_offset + move_offset
-        | RIGHT -> x_offset <- x_offset - move_offset
-        | LEFT -> x_offset <- x_offset + move_offset
-        | Z_DOWN -> z_offset <- z_offset - move_offset
-        | Z_UP -> z_offset <- z_offset + move_offset        
+        | DOWN -> yOffset <- yOffset - moveOffset
+        | UP -> yOffset <- yOffset + moveOffset
+        | RIGHT -> xOffset <- xOffset - moveOffset
+        | LEFT -> xOffset <- xOffset + moveOffset
+        | Z_DOWN -> zOffset <- zOffset - moveOffset
+        | Z_UP -> zOffset <- zOffset + moveOffset
 
-        | SCALE_UP -> space_scale <- space_scale * space_scale_offset
-        | SCALE_DOWN -> space_scale <- space_scale / space_scale_offset
+        | SCALE_UP -> spaceScale <- spaceScale * spaceScaleOffset
+        | SCALE_DOWN -> spaceScale <- spaceScale / spaceScaleOffset
 
         | PLANET_NEXT ->
-            if current_planet + 1 = bodies.Length then ()
-            else current_planet <- current_planet + 1
+            if currentPlanet + 1 = bodies.Length then ()
+            else currentPlanet <- currentPlanet + 1
         | PLANET_BACK ->
-            if current_planet = 0 then ()
-            else current_planet <- current_planet - 1
+            if currentPlanet = 0 then ()
+            else currentPlanet <- currentPlanet - 1
         | PLANET_GO ->
-            moveToPlanet current_planet
+            moveToPlanet currentPlanet
 
         | CHANGE_PROJECTION ->
             currentProjection <-
@@ -156,8 +160,8 @@ let main argv =
                 | XZ -> YZ
                 | YZ -> XY
 
-        | DT_SCALE_UP -> dt_scale <- dt_scale * dt_scale_offset
-        | DT_SCALE_DOWN -> dt_scale <- dt_scale / dt_scale_offset
+        | DT_SCALE_UP -> dtScale <- dtScale * dtScaleOffset
+        | DT_SCALE_DOWN -> dtScale <- dtScale / dtScaleOffset
         | PAUSE -> paused <- not paused
 
         | TOGGLE_INFO -> showInfo <- not showInfo
@@ -165,7 +169,7 @@ let main argv =
         | _ -> ()
 
     let tick (font : Font) (brush : Brush) _ =
-        let dt = 24.0 * 60.0 * 60.0 * interval * dt_scale
+        let dt = 24.0 * 60.0 * 60.0 * interval * dtScale
 
         if not paused then
             let dtAmount = int $ dt / step
@@ -186,12 +190,12 @@ let main argv =
             bodies
         List.iter (drawBodyPoint orbitsBuffer) bodies
 
-        let rect = new RectangleF (0.0f, 0.0f, 0.0f, 0.0f)
-        let playerX = x_offset * -space_scale
-        let playerY = y_offset * -space_scale
-        let playerZ = z_offset * -space_scale
+        let rect = RectangleF (0.0f, 0.0f, 0.0f, 0.0f)
+        let playerX = xOffset * -spaceScale
+        let playerY = yOffset * -spaceScale
+        let playerZ = zOffset * -spaceScale
         
-        let selectedPlanetId = bodies.[current_planet].id
+        let selectedPlanetId = bodies.[currentPlanet].id
         
         let projection = currentProjection.ToString ()
 
@@ -200,7 +204,7 @@ let main argv =
         let text =
             sprintf "player position {%f, %f, %f}, scale %f, time_scale %f, planet %s, projection %s, passed %.2f years"
                 playerX playerY playerZ
-                space_scale dt_scale
+                spaceScale dtScale
                 selectedPlanetId
                 projection
                 yearsPassed
@@ -209,7 +213,7 @@ let main argv =
             secondBuffer.DrawString (text, font, brush, rect)
             List.iteri
                 (fun index text ->
-                    let rect = new RectangleF (0.0f, float32 (index + 1) * 20.0f, 0.0f, 0.0f)
+                    let rect = RectangleF (0.0f, float32 (index + 1) * 20.0f, 0.0f, 0.0f)
                     secondBuffer.DrawString (text, font, brush, rect))
                 (printParameters bodies)
 

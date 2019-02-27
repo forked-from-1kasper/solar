@@ -1,4 +1,4 @@
-<Planets>
+<Objects>
   <Planet id="Earth">
     <Speed x="0.0" y="29783.0" z="0.0" />
     <Acc x="0.0" y="0.0" z="0.0" />
@@ -80,12 +80,12 @@
     <render radius="24764000.0" color="Blue" />
   </Planet>
   
-  <Planet id="Sun">
+  <Star id="Sun">
     <Speed x="0.0" y="0.0" z="0.0" />
     <Acc x="0.0" y="0.0" z="0.0" />
     <Pos x="0.0" y="0.0" z="0.0" />
     <SGP>132712440018000000000.00</SGP>
 
     <render radius="695510000.0" color="Yellow" />
-  </Planet>
-</Planets>
+  </Star>
+</Objects>
