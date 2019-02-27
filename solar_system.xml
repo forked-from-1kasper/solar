@@ -15,7 +15,7 @@
     <SGP>4904869500000.0</SGP>
 
     <render radius="1738140.0" color="Gray" />
-  </Planet>  
+  </Planet>
   
   <Planet id="Mercury">
     <Speed x="0.0" y="47360.0" z="0.0" />
