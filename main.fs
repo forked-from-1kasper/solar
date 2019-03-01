@@ -176,31 +176,33 @@ let main argv =
 
             for _ in 0 .. dtAmount do
                 bodies <- List.map (updateBody bodies step) bodies
-            bodies <- List.map (updateBody bodies $ dt % step) bodies            
+            bodies <- List.map (updateBody bodies $ dt % step) bodies
 
             timePassed <- timePassed + dt
 
         secondBuffer.Clear Color.Black
         if not showOrbits then orbitsBuffer.Clear Color.Transparent
 
+        List.iter (drawBodyPoint orbitsBuffer) bodies
+        secondBuffer.DrawImageUnscaled(orbitsBitmap, 0, 0)
+
         List.iter
             (fun b ->
                 drawBody secondBuffer b
                 drawBodyTag secondBuffer b)
             bodies
-        List.iter (drawBodyPoint orbitsBuffer) bodies
 
         let rect = RectangleF (0.0f, 0.0f, 0.0f, 0.0f)
         let playerX = xOffset * -spaceScale
         let playerY = yOffset * -spaceScale
         let playerZ = zOffset * -spaceScale
-        
+
         let selectedPlanetId = bodies.[currentPlanet].id
-        
+
         let projection = currentProjection.ToString ()
 
         let yearsPassed = timePassed / (60.0 * 60.0 * 24.0 * 365.0)
-        
+
         let text =
             sprintf "player position {%f, %f, %f}, scale %f, time_scale %f, planet %s, projection %s, passed %.2f years"
                 playerX playerY playerZ
@@ -217,19 +219,15 @@ let main argv =
                     secondBuffer.DrawString (text, font, brush, rect))
                 (printParameters bodies)
 
-        secondBuffer.DrawImageUnscaled(orbitsBitmap, 0, 0)
         firstBuffer.DrawImageUnscaled(secondBitmap, 0, 0)
-
         ()
-    
+
     if List.isEmpty bodies then bodies <- parseFile "solar_system.xml"
 
     form.KeyPress.Add (keypressEvent bodies)
 
     use timer = new Timer ()
     timer.Interval <- int $ interval * 1000.0
-
-    secondBuffer.Clear Color.Black
 
     use font = new Font ("Consolas", 8.0f)
     use brush = new SolidBrush (Color.White)
@@ -239,5 +237,5 @@ let main argv =
 
     Application.Run form
 
-    timer.Stop ()        
+    timer.Stop ()
     0
