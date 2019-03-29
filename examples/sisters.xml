@@ -1,0 +1,28 @@
+<Objects>
+  <Planet id="Star">
+    <Speed x="0.0" y="0.0" z="0.0" />
+    <Acc x="0.0" y="0.0" z="0.0" />
+    <Pos x="0.0" y="0.0" z="0.0" />
+    <SGP>90000000000000000000.0</SGP>
+
+    <render radius="2000000.0" color="Yellow" />
+  </Planet>
+
+  <Planet id="Planet A">
+    <Speed x="0.0" y="30000.0" z="0.0" />
+    <Acc x="0.0" y="0.0" z="0.0" />
+    <Pos x="-100000000000.0" y="0.0" z="0.0" />
+    <SGP>10000000000000.0</SGP>
+
+    <render radius="2000000.0" color="Red" />
+  </Planet>
+
+  <Planet id="Planet B">
+    <Speed x="0.0" y="-30000.0" z="0.0" />
+    <Acc x="0.0" y="0.0" z="0.0" />
+    <Pos x="100000000000.0" y="0.0" z="0.0" />
+    <SGP>10000000000000.0</SGP>
+
+    <render radius="2000000.0" color="Blue" />
+  </Planet>
+</Objects>

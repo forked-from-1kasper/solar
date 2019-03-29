@@ -89,7 +89,7 @@ let main argv =
     let mutable currentPlanet = 0
 
     let mutable paused = false
-    let mutable showInfo = true
+    let mutable showInfo = false
     let mutable showOrbits = false
     let mutable timePassed = 0.0
 

@@ -1,0 +1,100 @@
+<Objects>
+  <Planet id="Earth">
+    <Speed x="0.0" y="29783.0" z="0.0" />
+    <Acc x="0.0" y="0.0" z="0.0" />
+    <Pos x="147098290000.0" y="0.0" z="0.0" />
+    <SGP>398600441800000.0</SGP>
+
+    <render radius="6378100.0" color="LightBlue" />
+  </Planet>
+
+  <Planet id="Gloria">
+    <Speed x="0.0" y="-29783.0" z="0.0" />
+    <Acc x="0.0" y="0.0" z="0.0" />
+    <Pos x="-147098290000.0" y="0.0" z="0.0" />
+    <SGP>398600441800000.0</SGP>
+
+    <render radius="6378100.0" color="LightBlue" />
+  </Planet>
+
+  <Planet id="Moon">
+    <Speed x="1023.0" y="29783.0" z="89.0" />
+    <Acc x="0.0" y="0.0" z="0.0" />
+    <Pos x="147098290000.0" y="363104000.0" z="0.0" />
+    <SGP>4904869500000.0</SGP>
+
+    <render radius="1738140.0" color="Gray" />
+  </Planet>  
+  
+  <Planet id="Mercury">
+    <Speed x="0.0" y="47360.0" z="0.0" />
+    <Acc x="0.0" y="0.0" z="0.0" />
+    <Pos x="46001009000.0" y="0.0" z="0.0" />
+    <SGP>22032000000000.0</SGP>
+
+    <render radius="2439700.0" color="Brown" />
+  </Planet>
+  
+  <Planet id="Venus">
+    <Speed x="0.0" y="-35020.0" z="0.0" />
+    <Acc x="0.0" y="0.0" z="0.0" />
+    <Pos x="107476259000.0" y="0.0" z="0.0" />
+    <SGP>324859000000000.0</SGP>
+
+    <render radius="6051800.0" color="Orange" />
+  </Planet>
+
+  <Planet id="Mars">
+    <Speed x="0.0" y="24130.0" z="0.0" />
+    <Acc x="0.0" y="0.0" z="0.0" />
+    <Pos x="206655000000.0" y="0.0" z="0.0" />
+    <SGP>42828370000000.0</SGP>
+
+    <render radius="3396200.0" color="Red" />
+  </Planet>
+
+  <Planet id="Jupiter">
+    <Speed x="0.0" y="13070.0" z="0.0" />
+    <Acc x="0.0" y="0.0" z="0.0" />
+    <Pos x="740573600000.0" y="0.0" z="0.0" />
+    <SGP>126686534000000000.0</SGP>
+
+    <render radius="71492000.0" color="Red" />
+  </Planet>
+
+  <Planet id="Saturn">
+    <Speed x="0.0" y="9690.0" z="0.0" />
+    <Acc x="0.0" y="0.0" z="0.0" />
+    <Pos x="1353572956000.0" y="0.0" z="0.0" />
+    <SGP>37931187000000000.00</SGP>
+
+    <render radius="60268000.0" color="Orange" />
+  </Planet>
+
+  <Planet id="Uranus">
+    <Speed x="0.0" y="6810.0" z="0.0" />
+    <Acc x="0.0" y="0.0" z="0.0" />
+    <Pos x="2748938461000.0" y="0.0" z="0.0" />
+    <SGP>5793939000000000.0</SGP>
+
+    <render radius="25559000.0" color="Blue" />
+  </Planet>
+
+  <Planet id="Neptune">
+    <Speed x="0.0" y="5434.9" z="0.0" />
+    <Acc x="0.0" y="0.0" z="0.0" />
+    <Pos x="4452940833000.0" y="0.0" z="0.0" />
+    <SGP>6836529000000000.0</SGP>
+
+    <render radius="24764000.0" color="Blue" />
+  </Planet>
+  
+  <Star id="Sun">
+    <Speed x="0.0" y="0.0" z="0.0" />
+    <Acc x="0.0" y="0.0" z="0.0" />
+    <Pos x="0.0" y="0.0" z="0.0" />
+    <SGP>132712440018000000000.00</SGP>
+
+    <render radius="695510000.0" color="Yellow" />
+  </Star>
+</Objects>
